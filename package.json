@@ -1,0 +1,37 @@
+{
+  "name": "mcp-ssh-server",
+  "version": "1.0.0",
+  "description": "MCP SSH Server for secure connections to remote servers",
+  "main": "build/index.js",
+  "type": "module",
+  "bin": {
+    "mcp-ssh-server": "./build/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "start": "node ./build/index.js",
+    "dev": "ts-node --esm src/index.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "mcp",
+    "ssh",
+    "server",
+    "model context protocol",
+    "claude",
+    "vscode"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.1",
+    "dotenv": "^16.4.1",
+    "ssh2": "^1.16.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.16",
+    "@types/ssh2": "^1.11.18",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
+  }
+}
