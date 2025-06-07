@@ -1,4 +1,4 @@
-# MCP SSH Server
+# SSH MCP
 
 A Model Context Protocol (MCP) server that provides SSH access to remote servers, allowing AI tools like Claude Desktop or VS Code to securely connect to your VPS for website management.
 
