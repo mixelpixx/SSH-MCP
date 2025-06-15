@@ -13,6 +13,7 @@ import * as fs from "fs";
 import * as path from "path";
 import * as os from "os";
 import * as dotenv from "dotenv";
+import { addUbuntuTools, ubuntuToolHandlers } from "./ubuntu-website-tools.js";
 // Load environment variables from .env file if present
 dotenv.config();
 class SSHMCPServer {
@@ -162,6 +163,8 @@ class SSHMCPServer {
             }
         });
         this.setupHandlers();
+        // Add Ubuntu website management tools
+        addUbuntuTools(this.server, this.connections);
     }
     setupHandlers() {
         // Register tool list handler
@@ -251,22 +254,31 @@ class SSHMCPServer {
         }));
         // Register tool call handler
         this.server.setRequestHandler(CallToolRequestSchema, async (request) => {
-            switch (request.params.name) {
-                case 'ssh_connect':
-                    return this.handleSSHConnect(request.params.arguments);
-                case 'ssh_exec':
-                    return this.handleSSHExec(request.params.arguments);
-                case 'ssh_upload_file':
-                    return this.handleSSHUpload(request.params.arguments);
-                case 'ssh_download_file':
-                    return this.handleSSHDownload(request.params.arguments);
-                case 'ssh_list_files':
-                    return this.handleSSHListFiles(request.params.arguments);
-                case 'ssh_disconnect':
-                    return this.handleSSHDisconnect(request.params.arguments);
-                default:
-                    throw new Error(`Unknown tool: ${request.params.name}`);
+            const toolName = request.params.name;
+            // Handle core SSH tools directly
+            if (toolName.startsWith('ssh_')) {
+                switch (toolName) {
+                    case 'ssh_connect':
+                        return this.handleSSHConnect(request.params.arguments);
+                    case 'ssh_exec':
+                        return this.handleSSHExec(request.params.arguments);
+                    case 'ssh_upload_file':
+                        return this.handleSSHUpload(request.params.arguments);
+                    case 'ssh_download_file':
+                        return this.handleSSHDownload(request.params.arguments);
+                    case 'ssh_list_files':
+                        return this.handleSSHListFiles(request.params.arguments);
+                    case 'ssh_disconnect':
+                        return this.handleSSHDisconnect(request.params.arguments);
+                    default:
+                        throw new Error(`Unknown SSH tool: ${toolName}`);
+                }
             }
+            // Handle Ubuntu tools directly
+            if (toolName.startsWith('ubuntu_') && ubuntuToolHandlers[toolName]) {
+                return ubuntuToolHandlers[toolName](request.params.arguments);
+            }
+            throw new Error(`Unknown tool: ${toolName}`);
         });
     }
     async handleSSHConnect(params) {
