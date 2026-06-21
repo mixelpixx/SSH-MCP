@@ -15,7 +15,7 @@ import * as os from "os";
 import * as dotenv from "dotenv";
 import { addUbuntuTools, ubuntuToolHandlers } from "./ubuntu-website-tools.js";
 // Load environment variables from .env file if present
-dotenv.config();
+dotenv.config({ quiet: true });
 class SSHMCPServer {
     constructor() {
         this.connections = new Map();
