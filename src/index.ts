@@ -18,7 +18,7 @@ import * as dotenv from "dotenv";
 import { addUbuntuTools, ubuntuToolHandlers } from "./ubuntu-website-tools.js";
 
 // Load environment variables from .env file if present
-dotenv.config();
+dotenv.config({ quiet: true });
 
 class SSHMCPServer {
   private server: Server;
@@ -33,142 +33,7 @@ class SSHMCPServer {
       },
       {
         capabilities: {
-          tools: {
-            ssh_connect: {
-              description: "Connect to a remote server via SSH",
-              inputSchema: {
-                type: "object",
-                properties: {
-                  host: {
-                    type: "string",
-                    description: "Hostname or IP address of the remote server"
-                  },
-                  port: {
-                    type: "number",
-                    description: "SSH port (default: 22)"
-                  },
-                  username: {
-                    type: "string",
-                    description: "SSH username"
-                  },
-                  password: {
-                    type: "string",
-                    description: "SSH password (if not using key-based authentication)"
-                  },
-                  privateKeyPath: {
-                    type: "string",
-                    description: "Path to private key file (if using key-based authentication)"
-                  },
-                  passphrase: {
-                    type: "string",
-                    description: "Passphrase for private key (if needed)"
-                  },
-                  connectionId: {
-                    type: "string",
-                    description: "Unique identifier for this connection (to reference in future commands)"
-                  }
-                },
-                required: ["host", "username"]
-              }
-            },
-            ssh_exec: {
-              description: "Execute a command on the remote server",
-              inputSchema: {
-                type: "object",
-                properties: {
-                  connectionId: {
-                    type: "string",
-                    description: "ID of an active SSH connection"
-                  },
-                  command: {
-                    type: "string",
-                    description: "Command to execute"
-                  },
-                  cwd: {
-                    type: "string",
-                    description: "Working directory for the command"
-                  },
-                  timeout: {
-                    type: "number",
-                    description: "Command timeout in milliseconds"
-                  }
-                },
-                required: ["connectionId", "command"]
-              }
-            },
-            ssh_upload_file: {
-              description: "Upload a file to the remote server",
-              inputSchema: {
-                type: "object",
-                properties: {
-                  connectionId: {
-                    type: "string",
-                    description: "ID of an active SSH connection"
-                  },
-                  localPath: {
-                    type: "string",
-                    description: "Path to the local file"
-                  },
-                  remotePath: {
-                    type: "string",
-                    description: "Path where the file should be saved on the remote server"
-                  }
-                },
-                required: ["connectionId", "localPath", "remotePath"]
-              }
-            },
-            ssh_download_file: {
-              description: "Download a file from the remote server",
-              inputSchema: {
-                type: "object",
-                properties: {
-                  connectionId: {
-                    type: "string",
-                    description: "ID of an active SSH connection"
-                  },
-                  remotePath: {
-                    type: "string",
-                    description: "Path to the file on the remote server"
-                  },
-                  localPath: {
-                    type: "string",
-                    description: "Path where the file should be saved locally"
-                  }
-                },
-                required: ["connectionId", "remotePath", "localPath"]
-              }
-            },
-            ssh_list_files: {
-              description: "List files in a directory on the remote server",
-              inputSchema: {
-                type: "object",
-                properties: {
-                  connectionId: {
-                    type: "string",
-                    description: "ID of an active SSH connection"
-                  },
-                  remotePath: {
-                    type: "string",
-                    description: "Path to the directory on the remote server"
-                  }
-                },
-                required: ["connectionId", "remotePath"]
-              }
-            },
-            ssh_disconnect: {
-              description: "Close an SSH connection",
-              inputSchema: {
-                type: "object",
-                properties: {
-                  connectionId: {
-                    type: "string",
-                    description: "ID of an active SSH connection"
-                  }
-                },
-                required: ["connectionId"]
-              }
-            }
-          }
+          tools: {}
         }
       }
     );

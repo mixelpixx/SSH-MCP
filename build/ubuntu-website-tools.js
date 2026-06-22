@@ -692,6 +692,6 @@ export function addUbuntuTools(server, connections) {
             ]
         };
     });
-    console.log("Ubuntu website management tools loaded");
+    console.error("Ubuntu website management tools loaded");
 }
 //# sourceMappingURL=ubuntu-website-tools.js.map

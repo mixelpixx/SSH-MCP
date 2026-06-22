@@ -779,5 +779,5 @@ export function addUbuntuTools(server: Server, connections: Map<string, { conn: 
     };
   });
   
-  console.log("Ubuntu website management tools loaded");
+  console.error("Ubuntu website management tools loaded");
 }
